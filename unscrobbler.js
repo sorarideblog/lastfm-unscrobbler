@@ -4,6 +4,7 @@ function unscrobbler() {
   const moreMenu = document.querySelectorAll('.chartlist-more-menu');
   const recentTrackSection = document.querySelector('#recent-tracks-section');
   const libraryTracklistSection = document.querySelectorAll('.tracklist-section');
+  const librarySortSection = document.querySelector('#library-sort-section');
 
   // Where the range selection should start
   let startIndex;
@@ -132,6 +133,12 @@ function unscrobbler() {
       });
     });
   }
+  
+  if (librarySortSection) {
+    const libraryHeader = document.querySelector('[class*="library-header"]');
+    const selectAllBtn = createSelectAllButton(librarySortSection);
+    libraryHeader.appendChild(selectAllBtn);
+  }
 
   // Delete the checked scrobble rows.
   function deleteScrobbles() {
@@ -147,8 +154,10 @@ function unscrobbler() {
     // This is done by manually clicking on every 'Delete scrobble' button that it's scrobble has been checked.
     checkedScrobbles.forEach((checkbox) => {
       const scrobbleRow = checkbox.parentNode.parentNode;
-      const deleteBtn = scrobbleRow.querySelector('[data-ajax-form-sets-state="deleted"]');
-      deleteBtn.click();
+      if (scrobbleRow && scrobbleRow.tagName === 'TR') {
+        const deleteBtn = scrobbleRow.querySelector('[data-ajax-form-sets-state="deleted"]');
+        deleteBtn.click();
+        }
     });
   }
 
